@@ -108,7 +108,7 @@ func takePicture(res http.ResponseWriter, req *http.Request) {
 	err1 := cmd.Run()
 
 	if err1 != nil {
-		fm.Println("error:", err.Error())
+		fmt.Println("error:", err.Error())
 		log.Fatal(err1)
 	}
 	
