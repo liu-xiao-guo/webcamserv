@@ -52,6 +52,7 @@ func getPicture(w http.ResponseWriter, r *http.Request) {
 			
 	if err := cmd.Wait(); err != nil {
 		fmt.Println("it comes here", err.Error())
+		log.Println("it is error!")
 		log.Fatal(err)
 	}
 	
