@@ -29,7 +29,7 @@ func main() {
 
 func getPicture(w http.ResponseWriter, r *http.Request) {
 	log.Println("entering getPicture")
-	cmd := exec.Command("fswebcam", "-")
+	cmd := exec.Command("fswebcam --png 5 -r 320x240", "-")
 	
 	stdout, err := cmd.StdoutPipe()
 	if err != nil {
@@ -39,24 +39,19 @@ func getPicture(w http.ResponseWriter, r *http.Request) {
 	if err := cmd.Start(); err != nil {
 		log.Fatal(err)
 	}
-	
-	log.Println("here1")
-		
+			
 	bytes, err := ioutil.ReadAll(stdout);
 		
 	if  err != nil {
 		log.Fatal(err)
 	}
 
-	log.Println("here2")
 			
 	if err := cmd.Wait(); err != nil {
 		fmt.Println("it comes here", err.Error())
 		log.Println("it is error!")
 		log.Fatal(err)
-	}
-	
-	log.Println("here3")
+	}	
 		
 	// After all of the data has been read, now, let's print out
 	// fmt.Println("Number of bytes: ", len(bytes))
@@ -69,7 +64,6 @@ func getPicture(w http.ResponseWriter, r *http.Request) {
        fmt.Println("unable to write image.")
     }
     
-  	log.Println("here4")
 }
 
 
