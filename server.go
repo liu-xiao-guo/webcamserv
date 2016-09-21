@@ -29,8 +29,8 @@ func main() {
 
 func getPicture(w http.ResponseWriter, r *http.Request) {
 	log.Println("entering getPicture")
-	cmd := exec.Command("fswebcam", "-")
-	// cmd := exec.Command("fswebcam", "--jpeg", "40", "-p", "YUYV", "-r", "320x240", "-")
+	// cmd := exec.Command("fswebcam", "-")
+	cmd := exec.Command("fswebcam", "--jpeg", "40", "-p", "YUYV", "-r", "320x240", "-")
 	// cmd := exec.Command("fswebcam", "--jpeg", "40", "-")
 	
 	stdout, err := cmd.StdoutPipe()
