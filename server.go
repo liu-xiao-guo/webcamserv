@@ -9,6 +9,8 @@ import (
 	"os"
 	"io/ioutil"	
 	)
+	
+var quality = "40"
 
 func main() {	
 	mux := http.NewServeMux()
@@ -20,6 +22,7 @@ func main() {
 	mux.HandleFunc("/takepic", takePicture)
 	mux.HandleFunc("/getpic", getPicture)
 	mux.HandleFunc("/hello", handleHello)
+	mux.HandleFunc("/setquality", handleSetQuality)	
 
 	log.Println("Starting webserver on :8081")
 	if err := http.ListenAndServe(":8081", mux); err != nil {
@@ -30,7 +33,7 @@ func main() {
 func getPicture(w http.ResponseWriter, r *http.Request) {
 	log.Println("entering getPicture")
 	// cmd := exec.Command("fswebcam", "-")
-	cmd := exec.Command("fswebcam", "--jpeg", "40", "-p", "YUYV", "-r", "320x240", "-")
+	cmd := exec.Command("fswebcam", "--jpeg", quality, "-p", "YUYV", "-r", "320x240", "-")
 	// cmd := exec.Command("fswebcam", "--jpeg", "40", "-")
 	
 	stdout, err := cmd.StdoutPipe()
@@ -112,3 +115,9 @@ func takePicture(res http.ResponseWriter, req *http.Request) {
 				
 //	res.Write([]byte("Picture is taken.\n"))
 }	
+
+func handleSetQuality(res http.ResponseWriter, req *http.Request) {
+	quality = req.URL.Query().Get("quality")
+	fmt.Println("Going to set the Quality: ", quality)
+	fmt.Fprintf(res, "The quality is set to: "+quality)
+}
