@@ -11,6 +11,7 @@ import (
 	)
 	
 var quality = "40"
+var resolution = "320x240"
 
 func main() {	
 	mux := http.NewServeMux()
@@ -23,6 +24,7 @@ func main() {
 	mux.HandleFunc("/getpic", getPicture)
 	mux.HandleFunc("/hello", handleHello)
 	mux.HandleFunc("/setquality", handleSetQuality)	
+	mux.HandleFunc("/setresolution", handleResolution)	
 
 	log.Println("Starting webserver on :8081")
 	if err := http.ListenAndServe(":8081", mux); err != nil {
@@ -33,7 +35,7 @@ func main() {
 func getPicture(w http.ResponseWriter, r *http.Request) {
 	log.Println("entering getPicture")
 	// cmd := exec.Command("fswebcam", "-")
-	cmd := exec.Command("fswebcam", "--jpeg", quality, "-p", "YUYV", "-r", "320x240", "-")
+	cmd := exec.Command("fswebcam", "--jpeg", quality, "-p", "YUYV", "-r", resolution, "-")
 	// cmd := exec.Command("fswebcam", "--jpeg", "40", "-")
 	
 	stdout, err := cmd.StdoutPipe()
@@ -120,4 +122,10 @@ func handleSetQuality(res http.ResponseWriter, req *http.Request) {
 	quality = req.URL.Query().Get("quality")
 	fmt.Println("Going to set the Quality: ", quality)
 	fmt.Fprintf(res, "The quality is set to: "+quality)
+}
+
+func handleResolution(res http.ResponseWriter, req *http.Request) {
+	resolution = req.URL.Query().Get("resolution")
+	fmt.Println("Going to set the resolution: ", resolution)
+	fmt.Fprintf(res, "The quality is set to: " + resolution)
 }
