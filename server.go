@@ -127,5 +127,5 @@ func handleSetQuality(res http.ResponseWriter, req *http.Request) {
 func handleResolution(res http.ResponseWriter, req *http.Request) {
 	resolution = req.URL.Query().Get("resolution")
 	fmt.Println("Going to set the resolution: ", resolution)
-	fmt.Fprintf(res, "The quality is set to: " + resolution)
+	fmt.Fprintf(res, "The resolution is set to: " + resolution)
 }
